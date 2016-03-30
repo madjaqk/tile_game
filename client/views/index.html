@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title></title>
+		<script src="angular/angular.js"></script>
+		<script src="angular-route/angular-route.js"></script>
+		<script type="text/javascript">
+			var myApp = angular.module("myApp", ["ngRoute"])
+
+			// myApp.config(function($routeProvider){
+			// 	$routeProvider
+			// 		.when("/route", {
+			// 			templateUrl: "partials/partial1.html"
+			// 		})
+			// 		.otherwise({
+			// 			redirectTo: "/route"
+			// 		})
+			// })
+
+			myApp.factory("wordFactory", function($http){
+				var factory = {}
+
+				factory.index = function(callback){
+					$http.get("/words")
+						.then(function(output){
+							var words = output
+							callback(words)
+						})
+				}
+
+				return factory
+			})
+
+			myApp.controller("wordController", function($scope, wordFactory){
+
+				function wordList (){
+					wordFactory.index(function(data){
+						$scope.words = data.data
+					})
+				}
+
+				wordList()
+
+				function choose_word(word_list){
+					var keys = Object.keys(word_list)
+					// Random select from StackOverflow user Lawrence Whiteside
+					// http://stackoverflow.com/questions/2532218/pick-random-property-from-a-javascript-object
+					return keys[keys.length * Math.random() << 0]
+				}
+
+				$scope.getLetters = function(){
+					var word = choose_word($scope.words).toUpperCase()
+					word = word.split("").sort()
+					word = word.join("")
+					$scope.chosen_word = word
+
+				}
+
+				$scope.addDocument = function(){
+					// factory function here
+				}
+			})
+		</script>
+	</head>
+	<body ng-app="myApp" ng-controller="wordController">
+		<!-- <a href="#/partial1.html">Partial1</a> <-- Links to partials start with # -->
+		<h2>Letters</h2>
+		<h3 ng-if="chosen_word">{{chosen_word}}</h3>
+		<button ng-click="getLetters()">Get letters</button>
+		<ul>
+			<li ng-repeat="(word, score) in words">{{word}}</li>
+		</ul>
+		<div ng-view="">
+		</div>
+	</body>
+</html>

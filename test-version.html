@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title></title>
+		<style type="text/css">
+			.tile{
+				border: 2px solid black;
+				text-align: center;
+				vertical-align: center;
+				padding: 1px;
+				/*margin: 3px 3px 3px 0;*/
+				margin: 10px;
+				display: inline-block;
+				height: 25px;
+				width: 25px;
+				float: left;
+			}
+
+			.placeholder{
+				background-color: gray;
+				margin: 10px;
+				height: 25px;
+				width: 25px;
+				border: 1px dotted blue;
+				float: left;
+			}
+
+			.target{
+				margin: 10px;
+				border: 2px solid red;
+				width: 425px;
+				height: 50px;
+			}
+		</style>
+		<script src="node_modules/jquery/dist/jquery.js"></script>
+		<script src="node_modules/jquery-ui/jquery-ui.js"></script>
+		<script src="node_modules/angular/angular.js"></script>
+		<script src="node_modules/angular-ui-sortable/src/sortable.js"></script>
+		<script type="text/javascript">
+
+			var myApp = angular.module("myApp", ["ui.sortable"])
+
+			myApp.controller("testController", function($scope){
+				console.log("Controller exists")
+
+				$scope.tiles = "TUXBASSWORLDSHADOW".split("").sort()
+				$scope.words = {
+					3: $scope.tiles.slice(0,3),
+					4: $scope.tiles.slice(3,7),
+					5: $scope.tiles.slice(7,12),
+					6: $scope.tiles.slice(12,18),
+				}
+				
+				function checkWords(){
+					console.log($scope.words[3].join(""))
+					var word = {}
+					for(var i=3; i < 7; i++){
+						word[i] = $scope.words[i].join("")
+					}
+					console.log(word)
+					if(word[3]=="WORLD" && word[4]=="SHADOW"){
+						alert("That's right!")
+					}
+				}
+
+				$scope.sortableOptions = {
+					placeholder: "placeholder",
+					"ui-floating": true,
+					connectWith: ".target",
+					receive: function(e, ui){
+						if($scope.words[e.target.id].length > 6){
+							ui.item.sortable.cancel()
+							// console.log(ui.item.sortable)
+						} else {
+							setTimeout(function(){
+								checkWords()
+							}, 100)
+						}
+						// if($scope.words[e.target.id].length > 7){
+						// 	console.log(ui.item.sortable)
+						// } else {
+						// 	setTimeout(function(){
+						// 		checkWords()
+						// }, 100)
+					}
+				}
+
+				$scope.margins = {
+					2: 250,
+					6: 200,
+					11: 150
+				}
+
+			})
+		</script>
+	</head>
+	<body ng-app="myApp" ng-controller="testController">
+		<div ui-sortable="sortableOptions" ng-repeat="(index, word) in words" ng-model="word" class="target" id="{{index}}">
+			x{{index}}
+			<div ng-repeat="letter in word track by $index" class="tile">{{letter}}</div>
+		</div>
+		{{words}}
+	</body>
+</html>
