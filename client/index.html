@@ -53,6 +53,37 @@
 
 			myApp.controller("wordController", function($scope, wordFactory){
 
+				// Letter scores based on Peter Norvig's letter-frequency calculations.
+				// http://norvig.com/scrabble-letter-scores.html
+				$scope.letter_scores = {
+				    "E": 1,
+				    "A": 1,
+				    "S": 1,
+				    "R": 1,
+				    "T": 1,
+				    "I": 1,
+				    "N": 1,
+				    "O": 1,
+				    "L": 1,
+				    "D": 1,
+				    "M": 2,
+				    "P": 2,
+				    "G": 2,
+				    "U": 3,
+				    "C": 3,
+				    "B": 3,
+				    "H": 3,
+				    "F": 4,
+				    "W": 4,
+				    "Y": 4,
+				    "V": 6,
+				    "K": 6,
+				    "X": 8,
+				    "Z": 8,
+				    "J": 8,
+				    "Q": 10
+				    }
+
 				function shuffle(arr){
 					// Implementation of Durstenfeld shuffle by StackOverflow user Laurens Holt
 					for(var i = arr.length - 1; i > 0; i--){
@@ -126,7 +157,7 @@
 			<tr ng-repeat="(index, word) in words">
 				<td>
 					<div ui-sortable="sortableOptions" ng-model="word" class='target {{ (scores[index] && "green") || "red" }}' id="{{index}}">
-						<div ng-repeat="letter in word track by $index" class="tile">{{letter}}</div>
+						<div ng-repeat="letter in word track by $index" class="tile">{{letter}} <span class="value">{{letter_scores[letter]}}</span></div>
 					</div>
 				</td>
 				<td class="score">{{ scores[index] || 0 }}</td>
