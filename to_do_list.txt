@@ -1,13 +1,4 @@
-1. Update package.json and `npm install`
-2. Server side:
-	a. server.js is probably OK
-	b. Change db name in config/mongoose.js
-	c. Update names in server/routes.js
-	d. Update controller
-	e. Update model
-3. index.html
-	a. Rename genericController and $scope variables (and update partials)
-	b. Update names in genericFactory
-
-NB:
-* Angular date formatting filter: https://docs.angularjs.org/api/ng/filter/date
+1. Countdown clock
+2. Easier words
+3. High scores?
+4. Best possible play?
