@@ -53,6 +53,18 @@
 
 			myApp.controller("wordController", function($scope, wordFactory){
 
+				function shuffle(arr){
+					// Implementation of Durstenfeld shuffle by StackOverflow user Laurens Holt
+					for(var i = arr.length - 1; i > 0; i--){
+						var j = Math.floor(Math.random()* (i+1))
+						var temp = arr[i]
+						arr[i] = arr[j]
+						arr[j] = temp
+					}
+
+					return arr
+				}
+
 				function pick_words(){
 					wordFactory.pick_words(function(words){
 						console.log(words)
@@ -60,13 +72,14 @@
 						for(i=3; i<=6; i++){
 							$scope.tiles += words[i].toUpperCase()
 						}
-						$scope.tiles = $scope.tiles.split("").sort()
+						$scope.tiles = shuffle($scope.tiles.split(""))
 						$scope.words = {
 							3: $scope.tiles.slice(0,3),
 							4: $scope.tiles.slice(3,7),
 							5: $scope.tiles.slice(7,12),
 							6: $scope.tiles.slice(12,18),
 						}
+						get_scores()
 					})
 				}
 
@@ -81,14 +94,6 @@
 				pick_words()
 				
 				function checkWords(){
-					// var word = {}
-					// for(var i=3; i < 7; i++){
-					// 	word[i] = $scope.words[i].join("")
-					// }
-					// console.log(word)
-					// if(word[3]=="WORLD" && word[4]=="SHADOW"){
-					// 	alert("That's right!")
-					// }
 					get_scores()
 				}
 
