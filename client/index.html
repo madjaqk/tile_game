@@ -79,21 +79,6 @@
 				}
 
 				pick_words()
-
-				function choose_word(word_list){
-					var keys = Object.keys(word_list)
-					// Random select from StackOverflow user Lawrence Whiteside
-					// http://stackoverflow.com/questions/2532218/pick-random-property-from-a-javascript-object
-					return keys[keys.length * Math.random() << 0]
-				}
-
-				$scope.getLetters = function(){
-					var word = choose_word($scope.words).toUpperCase()
-					word = word.split("").sort()
-					word = word.join("")
-					$scope.chosen_word = word
-
-				}
 				
 				function checkWords(){
 					// var word = {}
@@ -127,7 +112,7 @@
 		</script>
 	</head>
 	<body ng-app="myApp" ng-controller="wordController">
-		<div ui-sortable="sortableOptions" ng-repeat="(index, word) in words" ng-model="word" class='{{ (scores[index] && "valid") || "target" }}' id="{{index}}">
+		<div ui-sortable="sortableOptions" ng-repeat="(index, word) in words" ng-model="word" class='target {{ (scores[index] && "green") || "red" }}' id="{{index}}">
 			x{{index}}
 			<div ng-repeat="letter in word track by $index" class="tile">{{letter}}</div>
 		</div>

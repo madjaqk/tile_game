@@ -21,14 +21,15 @@
 
 .target{
 	margin: 10px;
-	border: 5px solid red;
+
 	width: 425px;
 	height: 50px;
 }
 
-.valid{
-	margin: 10px;
+.red{
+	border: 5px solid red;
+}
+
+.green{
 	border: 5px solid green;
-	width: 425px;
-	height: 50px;
 }
