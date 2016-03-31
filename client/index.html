@@ -94,21 +94,17 @@
 					$scope.chosen_word = word
 
 				}
-
-				$scope.get_scores = function(){
-					get_scores()
-				}
-				
 				
 				function checkWords(){
-					var word = {}
-					for(var i=3; i < 7; i++){
-						word[i] = $scope.words[i].join("")
-					}
-					console.log(word)
-					if(word[3]=="WORLD" && word[4]=="SHADOW"){
-						alert("That's right!")
-					}
+					// var word = {}
+					// for(var i=3; i < 7; i++){
+					// 	word[i] = $scope.words[i].join("")
+					// }
+					// console.log(word)
+					// if(word[3]=="WORLD" && word[4]=="SHADOW"){
+					// 	alert("That's right!")
+					// }
+					get_scores()
 				}
 
 				$scope.sortableOptions = {
@@ -123,7 +119,7 @@
 					update: function(e, ui){
 						setTimeout(function(){
 							checkWords()
-						}, 100)
+						}, 50)
 					}
 				}
 
@@ -136,7 +132,6 @@
 			<div ng-repeat="letter in word track by $index" class="tile">{{letter}}</div>
 		</div>
 		{{words}}
-		<p><button ng-click="get_scores()">Scores</button></p>
 		<ul>
 			<li ng-repeat="(length, score) in scores">{{length}}: {{score}}</li>
 		</ul>
