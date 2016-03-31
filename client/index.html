@@ -114,6 +114,8 @@
 					})
 				}
 
+				pick_words()
+
 				function get_scores(){
 					wordFactory.get_scores($scope.words, function(scores){
 						// callback in here
@@ -127,10 +129,13 @@
 					})
 				}
 
-				pick_words()
-				
 				function checkWords(){
 					get_scores()
+				}
+
+				$scope.start_game = function(){
+					pick_words()
+					$("#racks").show("slow")
 				}
 
 				$scope.sortableOptions = {
@@ -153,21 +158,24 @@
 		</script>
 	</head>
 	<body ng-app="myApp" ng-controller="wordController">
-		<table>
-			<tr ng-repeat="(index, word) in words">
-				<td>
-					<div ui-sortable="sortableOptions" ng-model="word" class='target {{ (scores[index] && "green") || "red" }}' id="{{index}}">
-						<div ng-repeat="letter in word track by $index" class="tile">{{letter}} <span class="value">{{letter_scores[letter]}}</span></div>
-					</div>
-				</td>
-				<td class="score">{{ scores[index] || 0 }}</td>
-				<td class="score">x {{index}} = </td>
-				<td class="score">{{ (scores[index] || 0) * index }}</td>
-			</tr>
-			<tr><td> </td>
-				<td class="score" colspan=2>TOTAL: </td>
-				<td class="score">{{ scores.total }}</td>
-			</tr>
-		</table>
+		<button ng-click="start_game()">Start game</button>
+		<div id="racks" style="display: none;">
+			<table>
+				<tr ng-repeat="(index, word) in words">
+					<td>
+						<div ui-sortable="sortableOptions" ng-model="word" class='target {{ (scores[index] && "green") || "red" }}' id="{{index}}">
+							<div ng-repeat="letter in word track by $index" class="tile">{{letter}} <span class="value">{{letter_scores[letter]}}</span></div>
+						</div>
+					</td>
+					<td class="score">{{ scores[index] || 0 }}</td>
+					<td class="score">x {{index}} = </td>
+					<td class="score">{{ (scores[index] || 0) * index }}</td>
+				</tr>
+				<tr><td> </td>
+					<td class="score" colspan=2>TOTAL: </td>
+					<td class="score">{{ scores.total }}</td>
+				</tr>
+			</table>
+		</div>
 	</body>
 </html>
