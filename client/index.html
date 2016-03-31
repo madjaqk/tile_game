@@ -133,9 +133,21 @@
 					get_scores()
 				}
 
+				game_length = 60*5
+
 				$scope.start_game = function(){
 					pick_words()
 					$("#racks").show("slow")
+					$scope.timer = game_length
+					var interval = setInterval(countdown(), 1)
+				}
+
+				function countdown(){
+					console.log("countdown function")
+					$scope.timer -= 0.1
+					// if($scope.timer<=0){
+					// 	clearInterval(interval)
+					// }
 				}
 
 				$scope.sortableOptions = {
@@ -176,6 +188,7 @@
 					<td class="score">{{ scores.total }}</td>
 				</tr>
 			</table>
+			{{ timer }}
 		</div>
 	</body>
 </html>
