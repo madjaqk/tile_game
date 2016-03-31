@@ -32,18 +32,37 @@
 						})
 				}
 
+				factory.pick_words = function(callback){
+					$http.get("/words/pick_words")
+						.then(function(output){
+							var words = output.data
+							callback(words)
+						})
+				}
+
 				return factory
 			})
 
 			myApp.controller("wordController", function($scope, wordFactory){
 
-				function wordList (){
-					wordFactory.index(function(data){
-						$scope.words = data.data
+				function pick_words(){
+					wordFactory.pick_words(function(words){
+						console.log(words)
+						$scope.tiles = ""
+						for(i=3; i<=6; i++){
+							$scope.tiles += words[i].toUpperCase()
+						}
+						$scope.tiles = $scope.tiles.split("").sort()
+						$scope.words = {
+							3: $scope.tiles.slice(0,3),
+							4: $scope.tiles.slice(3,7),
+							5: $scope.tiles.slice(7,12),
+							6: $scope.tiles.slice(12,18),
+						}
 					})
 				}
 
-				wordList()
+				pick_words()
 
 				function choose_word(word_list){
 					var keys = Object.keys(word_list)
@@ -63,17 +82,9 @@
 				$scope.addDocument = function(){
 					// factory function here
 				}
-			})
-			myApp.controller("testController", function($scope){
-				console.log("Controller exists")
-
-				$scope.tiles = "TUXBASSWORLDSHADOW".split("").sort()
-				$scope.words = {
-					3: $scope.tiles.slice(0,3),
-					4: $scope.tiles.slice(3,7),
-					5: $scope.tiles.slice(7,12),
-					6: $scope.tiles.slice(12,18),
-				}
+			
+				// $scope.tiles = "TUXBASSWORLDSHADOW".split("").sort()
+				
 				
 				function checkWords(){
 					var word = {}
@@ -105,7 +116,7 @@
 			})
 		</script>
 	</head>
-	<body ng-app="myApp" ng-controller="testController">
+	<body ng-app="myApp" ng-controller="wordController">
 		<div ui-sortable="sortableOptions" ng-repeat="(index, word) in words" ng-model="word" class="target" id="{{index}}">
 			x{{index}}
 			<div ng-repeat="letter in word track by $index" class="tile">{{letter}}</div>

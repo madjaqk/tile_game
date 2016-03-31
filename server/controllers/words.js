@@ -1,7 +1,7 @@
 // Controller
 
-var mongoose = require("mongoose")
-var Document = mongoose.model("Document")
+// var mongoose = require("mongoose")
+// var Document = mongoose.model("Document")
 var words = require("./../../wordlists/20k_legal.json")
 
 // Rather than the immediate function, it might be better to do this as a constructor function or just an object literal, but that's now how I've done it thus far.

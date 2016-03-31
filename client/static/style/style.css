@@ -25,3 +25,10 @@
 	width: 425px;
 	height: 50px;
 }
+
+.valid{
+	margin: 10px;
+	border: 2px solid green;
+	width: 425px;
+	height: 50px;
+}
