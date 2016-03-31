@@ -86,8 +86,13 @@
 				function get_scores(){
 					wordFactory.get_scores($scope.words, function(scores){
 						// callback in here
-						console.log(scores)
 						$scope.scores = scores
+						var total = 0
+						for(var i = 3; i<=6; i++){
+							if($scope.scores[i]){ total += $scope.scores[i]*i }
+							
+						}
+						$scope.scores.total = total
 					})
 				}
 
@@ -117,13 +122,21 @@
 		</script>
 	</head>
 	<body ng-app="myApp" ng-controller="wordController">
-		<div ui-sortable="sortableOptions" ng-repeat="(index, word) in words" ng-model="word" class='target {{ (scores[index] && "green") || "red" }}' id="{{index}}">
-			x{{index}}
-			<div ng-repeat="letter in word track by $index" class="tile">{{letter}}</div>
-		</div>
-		{{words}}
-		<ul>
-			<li ng-repeat="(length, score) in scores">{{length}}: {{score}}</li>
-		</ul>
+		<table>
+			<tr ng-repeat="(index, word) in words">
+				<td>
+					<div ui-sortable="sortableOptions" ng-model="word" class='target {{ (scores[index] && "green") || "red" }}' id="{{index}}">
+						<div ng-repeat="letter in word track by $index" class="tile">{{letter}}</div>
+					</div>
+				</td>
+				<td class="score">{{ scores[index] || 0 }}</td>
+				<td class="score">x {{index}} = </td>
+				<td class="score">{{ (scores[index] || 0) * index }}</td>
+			</tr>
+			<tr><td> </td>
+				<td class="score" colspan=2>TOTAL: </td>
+				<td class="score">{{ scores.total }}</td>
+			</tr>
+		</table>
 	</body>
 </html>

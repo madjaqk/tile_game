@@ -21,8 +21,7 @@
 
 .target{
 	margin: 10px;
-
-	width: 425px;
+	width: 410px;
 	height: 50px;
 }
 
@@ -32,4 +31,11 @@
 
 .green{
 	border: 5px solid green;
+}
+
+.score{
+	text-align: center;
+	width: 75px;
+	font-size: 2em;
+	font-weight: bold;
 }

@@ -30,7 +30,6 @@ module.exports = (function(){
 			for(var i=3; i<=6; i++){
 				output[i] = scores[i][req.body[i].join("")]
 			}
-			console.log("find_score output", output)
 			res.json(output)
 		}
 	}
