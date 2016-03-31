@@ -1,4 +1,4 @@
-wordlist = "20k_legal_"
+wordlist = "sowpods_"
 
 """
 with open(wordlist+".txt") as f:
@@ -12,16 +12,50 @@ with open(wordlist+".txt") as f:
             output[len(word)].write(word+"\n")
             if count > 10: break
 """
+letter_scores = {
+    "E": 1,
+    "A": 1,
+    "S": 1,
+    "R": 1,
+    "T": 1,
+    "I": 1,
+    "N": 1,
+    "O": 1,
+    "L": 1,
+    "D": 1,
+    "M": 2,
+    "P": 2,
+    "G": 2,
+    "U": 3,
+    "C": 3,
+    "B": 3,
+    "H": 3,
+    "F": 4,
+    "W": 4,
+    "Y": 4,
+    "V": 6,
+    "K": 6,
+    "X": 8,
+    "Z": 8,
+    "J": 8,
+    "Q": 10,
+    }
 
-with open("20k_legal.json", "w+") as output:
+def word_score(word, score):
+    return sum([score[letter] for letter in word])
+
+
+with open("word_scores.json", "w+") as output:
     output.write("{\n")
     for i in range(3,7):
         with open(wordlist+str(i)+".txt") as input:
-            output.write('\t{}: ['.format(i))
+            output.write('\t"'+str(i)+'": {\n')
             for word in input.readlines():
-                output.write('"{}", '.format(word.strip("\n")))
-            output.write("],\n")
+                word = word.strip("\n").upper()
+                output.write('\t\t"{}": {},\n'.format(word, word_score(word, letter_scores)))
+            output.write("},\n")
     output.write("}")
+
 
 """
 for i in range(3,7):
