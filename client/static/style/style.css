@@ -53,3 +53,8 @@ body{
 .value{
 	font-size: 0.5em;
 }
+
+.clock{
+	font-size: 2em;
+	font-family: "Lucida Console", "Courier New", "Courier", "monospace"
+}
