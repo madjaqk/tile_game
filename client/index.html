@@ -40,6 +40,14 @@
 						})
 				}
 
+				factory.get_scores = function(words, callback){
+					$http.post("/words/find_score", words)
+						.then(function(output){
+							var scores = output.data
+							callback(scores)
+						})
+				}
+
 				return factory
 			})
 
@@ -62,6 +70,14 @@
 					})
 				}
 
+				function get_scores(){
+					wordFactory.get_scores($scope.words, function(scores){
+						// callback in here
+						console.log(scores)
+						$scope.scores = scores
+					})
+				}
+
 				pick_words()
 
 				function choose_word(word_list){
@@ -79,11 +95,9 @@
 
 				}
 
-				$scope.addDocument = function(){
-					// factory function here
+				$scope.get_scores = function(){
+					get_scores()
 				}
-			
-				// $scope.tiles = "TUXBASSWORLDSHADOW".split("").sort()
 				
 				
 				function checkWords(){
@@ -117,10 +131,15 @@
 		</script>
 	</head>
 	<body ng-app="myApp" ng-controller="wordController">
-		<div ui-sortable="sortableOptions" ng-repeat="(index, word) in words" ng-model="word" class="target" id="{{index}}">
+		<div ui-sortable="sortableOptions" ng-repeat="(index, word) in words" ng-model="word" class='{{ (scores[index] && "valid") || "target" }}' id="{{index}}">
 			x{{index}}
 			<div ng-repeat="letter in word track by $index" class="tile">{{letter}}</div>
 		</div>
 		{{words}}
+		<p><button ng-click="get_scores()">Scores</button></p>
+		<ul>
+			<li ng-repeat="(length, score) in scores">{{length}}: {{score}}</li>
+		</ul>
+		{{ (scores[3] && "Hey") || "Boo" }}
 	</body>
 </html>
