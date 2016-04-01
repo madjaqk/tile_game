@@ -1,5 +1,5 @@
-1. Countdown clock
-2. Easier words
+1. Countdown clock -- DONE
+2. Easier words -- DONE
 3. High scores?
 4. Best possible play?
 5. Multiplayer

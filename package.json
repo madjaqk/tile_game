@@ -1,7 +1,7 @@
 {
   "name": "word_tile_game",
   "description": "A game of anagramming letter tiles",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "dependencies": {
     "angular": "^1.5.2",
     "angular-dragdrop": "^1.0.13",
@@ -12,5 +12,14 @@
     "jquery": "^2.2.2",
     "jquery-ui": "^1.10.5",
     "mongoose": "^4.4.8"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/madjaqk/tile_game"
+  },
+  "author": "Jack Brounstein",
+  "contributors": [
+    "Ezra Stanfield"
+  ],
+  "license": "MIT"
 }
