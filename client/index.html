@@ -125,9 +125,9 @@
 						var total = 0
 						for(var i = 3; i<=6; i++){
 							if($scope.scores[i]){ total += $scope.scores[i]*i }
-							
 						}
 						$scope.scores.total = total
+						$scope.all_correct = [3,4,5,6].every(elem => $scope.scores[elem])
 					})
 				}
 
@@ -142,14 +142,12 @@
 					$scope.message = ""
 					$scope.sortableOptions.disabled = false
 					$("#racks").show("slow")
-					$("#answer").show("slow") // take this line out later
+					// $("#answer").show("slow") // take this line out later
 					$scope.timer = game_length
 					$scope.interval = $interval(countdown, 100)
 				}
 
 				$scope.end_game = function(){
-					// Make all of the lists non-sortable
-					$scope.sortableOptions.disabled = true
 					$scope.message = "Congratulations!"
 					stopInterval()
 				}
@@ -174,6 +172,11 @@
 						$interval.cancel($scope.interval)
 						$scope.interval = undefined
 					}
+					
+					// Make all of the lists non-sortable
+					$scope.sortableOptions.disabled = true
+					
+					$("#answer").show("slow")
 				}
 
 				// Per angular documentation, $intervals need to be explicitly cancelled
@@ -221,7 +224,7 @@
 			</table>
 			<div class="clock">
 				{{ time_remaining.minutes }}:{{ time_remaining.seconds }}.{{ time_remaining.tenths }}
-				<button ng-click="end_game()">End game</button>
+				<button ng-show="all_correct" ng-click="end_game()">End game</button>
 			</div>
 			<h2>{{message}}</h2>
 		</div>
