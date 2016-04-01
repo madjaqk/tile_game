@@ -1,4 +1,4 @@
-wordlist = "sowpods_"
+wordlist = "10k_legal_"
 
 """
 with open(wordlist+".txt") as f:
@@ -44,8 +44,13 @@ letter_scores = {
 def word_score(word, score):
     return sum([score[letter] for letter in word])
 
+"""
+for i in range(3,7):
+    with open(wordlist+str(i)+".txt")
+"""
 
-with open("word_scores.json", "w+") as output:
+
+with open("10k_legal.json", "w+") as output:
     output.write("{\n")
     for i in range(3,7):
         with open(wordlist+str(i)+".txt") as input:
@@ -53,7 +58,7 @@ with open("word_scores.json", "w+") as output:
             for word in input.readlines():
                 word = word.strip("\n").upper()
                 output.write('\t\t"{}": {},\n'.format(word, word_score(word, letter_scores)))
-            output.write("},\n")
+            output.write("\t},\n")
     output.write("}")
 
 

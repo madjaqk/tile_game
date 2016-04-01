@@ -2,3 +2,4 @@
 2. Easier words
 3. High scores?
 4. Best possible play?
+5. Multiplayer
