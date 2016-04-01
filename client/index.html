@@ -135,14 +135,23 @@
 					get_scores()
 				}
 
-				game_length = 600*5
+				game_length = 600*5+1
 
 				$scope.start_game = function(){
 					pick_words()
+					$scope.message = ""
+					$scope.sortableOptions.disabled = false
 					$("#racks").show("slow")
 					$("#answer").show("slow") // take this line out later
 					$scope.timer = game_length
 					$scope.interval = $interval(countdown, 100)
+				}
+
+				$scope.end_game = function(){
+					// Make all of the lists non-sortable
+					$scope.sortableOptions.disabled = true
+					$scope.message = "Congratulations!"
+					stopInterval()
 				}
 
 				function countdown(){
@@ -155,6 +164,7 @@
 					}
 
 					if($scope.timer<=0){
+						$scope.message = "Time's up!"
 						stopInterval()
 					}
 				}
@@ -211,7 +221,9 @@
 			</table>
 			<div class="clock">
 				{{ time_remaining.minutes }}:{{ time_remaining.seconds }}.{{ time_remaining.tenths }}
+				<button ng-click="end_game()">End game</button>
 			</div>
+			<h2>{{message}}</h2>
 		</div>
 		<div id="answer" style="display: none;">
 			<h2>This was our answer:</h2>
