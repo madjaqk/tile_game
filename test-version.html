@@ -66,9 +66,14 @@
 				$scope.timer = game_length
 
 				$scope.interval = $interval(countdown, 100)
+				$scope.d = "M100 100"
 
 				function update_clock(){
-					var svgElem  = document.getElementById("clock_svg")
+					// Code to generate an SVG with a slice of a circle from StackOverflow user Holger Will
+					// http://stackoverflow.com/a/32754195/5749040
+					var svgElem = document.getElementById("clock_svg")
+					var path = document.getElementById("clock_svg_path")
+
 					var cx=100
 					var cy=100
 					var rx=50
@@ -80,15 +85,17 @@
 
 					var m = svgElem.createSVGMatrix()
 
-					var p2 = p.matrixTransform(m.rotate(180))
+					var angle = 180 * ($scope.timer/game_length)
+
+					var p2 = p.matrixTransform(m.rotate(angle))
 					p2.x = cx + p2.x*rx
 					p2.y = cy + p2.y*ry
 
-					var path = document.createElementNS("http://www.w3.org/2000/svg", "path")
-					svgElem.appendChild(path)
+					// var path = document.createElementNS("http://www.w3.org/2000/svg", "path")
+					// svgElem.appendChild(path)
 
-					var d = "M" + cx + " " + (cy+ry) + "A" + rx + " " + ry + " 0 0 1" + p2.x + " " + p2.y + "L" + cx + " "+cy+"z"
-					path.setAttribute("d", d)
+					$scope.d = "M" + cx + " " + (cy+ry) + "A" + rx + " " + ry + " 0 0 1" + p2.x + " " + p2.y + "L" + cx + " "+cy+"z"
+					path.setAttribute("d", $scope.d)
 				}
 
 				function countdown(){
@@ -149,7 +156,11 @@
 			x{{index}}
 			<div ng-repeat="letter in word track by $index" class="tile">{{letter}}</div>
 		</div>
-		<svg id="clock_svg" width=200 height=200 style="border: 1px dotted red"></svg>
-		{{words}}
+		<p>{{d}}</p>
+		<p>{{timer}}</p>
+		<svg id="clock_svg" width=200 height=200 style="border: 1px dotted red">
+			<path id="clock_svg_path" d="M100 150"></path>
+		</svg>
+		<p>{{words}}</p>
 	</body>
 </html>

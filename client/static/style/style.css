@@ -56,5 +56,12 @@ body{
 
 .clock{
 	font-size: 2em;
-	font-family: "Lucida Console", "Courier New", "Courier", "monospace"
+	font-family: "Lucida Console", "Courier New", "Courier", "monospace";
+	display: inline-block;
+}
+
+.message{
+	display: inline-block;
+	vertical-align: top;
+	margin-top: 65px;
 }
