@@ -13,7 +13,7 @@ module.exports = (function(){
 			for(var i = 3; i <= 6; i++){
 				var keys = Object.keys(words[i])
 				return_word = keys[Math.floor(Math.random()*keys.length)]
-				output[i] = return_word
+				output[i] = {word: return_word, score: words[i][return_word]}
 			}
 			res.json(output)
 		},
