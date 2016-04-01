@@ -142,7 +142,7 @@
 					$scope.message = ""
 					$scope.sortableOptions.disabled = false
 					$("#racks").show("slow")
-					// $("#answer").show("slow") // take this line out later
+					$("#answer").hide()
 					$scope.timer = game_length
 					$scope.interval = $interval(countdown, 100)
 				}
@@ -150,6 +150,14 @@
 				$scope.end_game = function(){
 					$scope.message = "Congratulations!"
 					stopInterval()
+				}
+
+				function update_clock(){
+					var canvas  = document.getElementById("clock_canvas")
+					var ctx = canvas.getContext("2d")
+					ctx.lineWidth = 100
+					ctx.arc(100,100,100,Math.PI*3/2,Math.PI*3/2 + 2*Math.PI*($scope.timer/game_length), true)
+					ctx.stroke()
 				}
 
 				function countdown(){
@@ -160,6 +168,8 @@
 						seconds: ("0"+Math.floor(($scope.timer % 600)/10)).slice(-2),
 						tenths: $scope.timer % 10
 					}
+
+					update_clock()
 
 					if($scope.timer<=0){
 						$scope.message = "Time's up!"
@@ -224,6 +234,7 @@
 			</table>
 			<div class="clock">
 				{{ time_remaining.minutes }}:{{ time_remaining.seconds }}.{{ time_remaining.tenths }}
+				<canvas id="clock_canvas" width=200 height=200></canvas>
 				<button ng-show="all_correct" ng-click="end_game()">I'm done!</button>
 			</div>
 		</div>

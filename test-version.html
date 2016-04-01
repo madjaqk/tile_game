@@ -40,7 +40,7 @@
 
 			var myApp = angular.module("myApp", ["ui.sortable"])
 
-			myApp.controller("testController", function($scope){
+			myApp.controller("testController", function($scope, $interval){
 				console.log("Controller exists")
 
 				$scope.tiles = "TUXBASSWORLDSHADOW".split("").sort()
@@ -61,6 +61,69 @@
 						alert("That's right!")
 					}
 				}
+
+				game_length = 601
+				$scope.timer = game_length
+
+				$scope.interval = $interval(countdown, 100)
+
+				function update_clock(){
+					var svgElem  = document.getElementById("clock_svg")
+					var cx=100
+					var cy=100
+					var rx=50
+					var ry=50
+
+					var p = svgElem.createSVGPoint()
+					p.x = 0
+					p.y = 1
+
+					var m = svgElem.createSVGMatrix()
+
+					var p2 = p.matrixTransform(m.rotate(180))
+					p2.x = cx + p2.x*rx
+					p2.y = cy + p2.y*ry
+
+					var path = document.createElementNS("http://www.w3.org/2000/svg", "path")
+					svgElem.appendChild(path)
+
+					var d = "M" + cx + " " + (cy+ry) + "A" + rx + " " + ry + " 0 0 1" + p2.x + " " + p2.y + "L" + cx + " "+cy+"z"
+					path.setAttribute("d", d)
+				}
+
+				function countdown(){
+					$scope.timer--
+					
+					$scope.time_remaining = {
+						minutes: Math.floor($scope.timer/600),
+						seconds: ("0"+Math.floor(($scope.timer % 600)/10)).slice(-2),
+						tenths: $scope.timer % 10
+					}
+
+					update_clock()
+
+					if($scope.timer<=0){
+						$scope.message = "Time's up!"
+						stopInterval()
+					}
+				}
+
+				function stopInterval(){
+					if(angular.isDefined($scope.interval)){
+						$interval.cancel($scope.interval)
+						$scope.interval = undefined
+					}
+					
+					// Make all of the lists non-sortable
+					$scope.sortableOptions.disabled = true
+					
+					$("#answer").show("slow")
+				}
+
+				// Per angular documentation, $intervals need to be explicitly cancelled
+				$scope.$on("$destroy", function(){
+					stopInterval()
+				})
 
 				$scope.sortableOptions = {
 					placeholder: "placeholder",
@@ -86,6 +149,7 @@
 			x{{index}}
 			<div ng-repeat="letter in word track by $index" class="tile">{{letter}}</div>
 		</div>
+		<svg id="clock_svg" width=200 height=200 style="border: 1px dotted red"></svg>
 		{{words}}
 	</body>
 </html>
