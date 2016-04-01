@@ -224,11 +224,11 @@
 			</table>
 			<div class="clock">
 				{{ time_remaining.minutes }}:{{ time_remaining.seconds }}.{{ time_remaining.tenths }}
-				<button ng-show="all_correct" ng-click="end_game()">End game</button>
+				<button ng-show="all_correct" ng-click="end_game()">I'm done!</button>
 			</div>
-			<h2>{{message}}</h2>
 		</div>
 		<div id="answer" style="display: none;">
+			<h2>{{message}}</h2>
 			<h2>This was our answer:</h2>
 			<table>
 				<tr ng-repeat="(index, word) in answer">
