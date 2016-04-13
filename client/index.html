@@ -139,7 +139,6 @@
 
 				$scope.start_game = function(){
 					pick_words()
-					$scope.message = "Placeholder"
 					$scope.sortableOptions.disabled = false
 					$("#racks").show("slow")
 					$("#answer").hide()
@@ -199,7 +198,6 @@
 					update_clock()
 
 					if($scope.timer<=0){
-						console.log("Time's up!")
 						$scope.message = "Time's up!"
 						stopInterval()
 					}
@@ -265,9 +263,11 @@
 					<path id="clock_svg_path" d="M100 100"></path>
 					<text x=25 y=110 fill="green" id="clock_svg_text">{{ time_remaining.minutes }}:{{ time_remaining.seconds }}.{{ time_remaining.tenths }}</text>
 				</svg>
-				<button ng-show="all_correct" ng-click="end_game()">I'm done!</button>
 			</div>
-			<div class="message"><h2>{{message}}</h2></div>
+			<div class="message">
+				<button ng-show="all_correct" ng-click="end_game()">I'm done!</button>
+				<h2>{{message}}</h2>
+			</div>
 		</div>
 		<div id="answer" style="display: none;">
 			<h2>This was our answer:</h2>
