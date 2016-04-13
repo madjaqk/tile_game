@@ -5,7 +5,6 @@
 var words = require("./../../wordlists/10k_legal.json")
 var scores = require("./../../wordlists/word_scores.json")
 
-// Rather than the immediate function, it might be better to do this as a constructor function or just an object literal, but that's now how I've done it thus far.
 module.exports = (function(){
 	return {
 		pick_words: function(req, res){
