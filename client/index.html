@@ -118,6 +118,7 @@
 
 				// This line doesn't technically need to be here, as the pick_words() function is called again on game start.  However, without it, the $("#racks").show() looks odd and discontinuous, presumably because the racks don't have height until the tiles have been initialized.
 				pick_words()
+				$scope.start_game_button = "Start game"
 
 				function get_scores(){
 					wordFactory.get_scores($scope.words, function(scores){
@@ -142,6 +143,7 @@
 					$scope.sortableOptions.disabled = false
 					$("#racks").show("slow")
 					$("#answer").hide()
+					$scope.start_game_button = "Restart"
 					$scope.timer = game_length
 					$scope.interval = $interval(countdown, 100)
 					document.getElementById("clock_svg_text").setAttribute("fill", "green")
@@ -220,16 +222,21 @@
 					stopInterval()
 				})
 
+				$scope.first_update_event = true
+				// I want to cancel the move if there are too many tiles (seven or more) in the receiving rack.  In order to work properly with Angular models, the ui.item.sortable.cancel() method needs to be called inside of the first update event (that is, when the source list is being updated because it lost a member).  However, I couldn't find a way to distinguish between the two events, nothing in ui object to indicate which rack was being updated; as such, it would check the length of the destination list on source update, see that it's OK, then check again on destination update, at which point it will be too long (as the new tile's now counted) and the cancel() will fire and break the Angular models.  The $scope.first_update_event boolean is a kludge; it toggles every time the the update event triggers, so it's true iff it's the first update in a pair.
+
 				$scope.sortableOptions = {
 					placeholder: "placeholder",
 					"ui-floating": true,
 					connectWith: ".target",
-					receive: function(e, ui){
-						if($scope.words[e.target.id].length > 6){
-							ui.item.sortable.cancel()
-						}
-					},
 					update: function(e, ui){
+						if(ui.item.sortable.source[0] != ui.item.sortable.droptarget[0]){
+							if($scope.first_update_event && $scope.words[ui.item.sortable.droptarget[0].id].length >= 7){
+								console.log("too long")
+								ui.item.sortable.cancel()
+							}
+							$scope.first_update_event = !$scope.first_update_event
+						}
 						setTimeout(function(){
 							checkWords()
 						}, 50)
@@ -240,7 +247,7 @@
 		</script>
 	</head>
 	<body ng-app="myApp" ng-controller="wordController">
-		<button ng-click="start_game()">Start game</button>
+		<button ng-click="start_game()">{{start_game_button}}</button>
 		<div id="racks" style="display: none;">
 			<table>
 				<tr ng-repeat="(index, word) in words">
@@ -258,6 +265,7 @@
 					<td class="score">{{ scores.total }}</td>
 				</tr>
 			</table>
+			<p>{{words}}</p>
 			<div class="clock">
 				<svg id="clock_svg" width=200 height=200>
 					<path id="clock_svg_path" d="M100 100"></path>
