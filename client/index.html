@@ -247,6 +247,7 @@
 		</script>
 	</head>
 	<body ng-app="myApp" ng-controller="wordController">
+		<h2>Rearrange the tiles to form a 3-letter word, 4-letter word, 5-letter word, and 6-letter word</h2>
 		<button ng-click="start_game()">{{start_game_button}}</button>
 		<div id="racks" style="display: none;">
 			<table>
@@ -265,7 +266,6 @@
 					<td class="score">{{ scores.total }}</td>
 				</tr>
 			</table>
-			<p>{{words}}</p>
 			<div class="clock">
 				<svg id="clock_svg" width=200 height=200>
 					<path id="clock_svg_path" d="M100 100"></path>
