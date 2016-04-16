@@ -11,4 +11,3 @@ The point-value of each letter is based on based on [Peter Norvig's letter-frequ
 
 * Best possible score (I *think* this is NP-hard)
 * Challenge a friend to play on the same tile set
-* Mobile support with [jQuery-ui touch punch](https://github.com/furf/jquery-ui-touch-punch/)
