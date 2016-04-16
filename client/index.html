@@ -105,7 +105,7 @@
 					wordFactory.pick_words(function(words){
 						console.log(words)
 						$scope.answer = words
-						$scope.answer_total = [3,4,5,6].map(i => words[i].score * i).reduce((a,b) => a + b, 0)
+						$scope.answer_total = [3,4,5,6].map(function(i){ return words[i].score * i }).reduce(function(a,b){return a + b}, 0)
 						$scope.tiles = ""
 						for(i=3; i<=6; i++){
 							$scope.tiles += words[i].word.toUpperCase()
@@ -133,7 +133,7 @@
 							if($scope.scores[i]){ total += $scope.scores[i]*i }
 						}
 						$scope.scores.total = total
-						$scope.all_correct = [3,4,5,6].every(elem => $scope.scores[elem])
+						$scope.all_correct = [3,4,5,6].every(function(elem){ return $scope.scores[elem] })
 					})
 				}
 
